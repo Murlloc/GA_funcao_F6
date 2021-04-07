@@ -1,0 +1,1 @@
+GA_funcao_F6
