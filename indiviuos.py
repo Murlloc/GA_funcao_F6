@@ -29,13 +29,14 @@ class Individual(object):
         global MIN, MAX
 
         #Primeiro dividimos o cromossoma em 2
-        x,y = self.cromossoma[:len(self.cromossoma)/2], self.cromossoma[len(self.cromossoma)/2:]
+        print(len(self.cromossoma))
+        x,y = self.cromossoma[:22], self.cromossoma[22:]
         base_dez_x = int(x, 2)
         base_dez_y = int(y, 2)
         real_x = (base_dez_x * ((MAX-MIN) / (2**22 - 1))) + MIN
         real_y = (base_dez_y * ((MAX-MIN) / (2**22 - 1))) + MIN
 
-        fSix_result = aply_fSix(x,y)
+        fSix_result = self.aply_fSix(real_x, real_y)
 
         #Avalio o quão proximo ela está do meu otimo
 
