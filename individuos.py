@@ -29,16 +29,17 @@ class Individual(object):
         global MIN, MAX
 
         #Primeiro dividimos o cromossoma em 2
-        print(len(self.cromossoma))
         x,y = self.cromossoma[:22], self.cromossoma[22:]
         base_dez_x = int(x, 2)
         base_dez_y = int(y, 2)
         real_x = (base_dez_x * ((MAX-MIN) / (2**22 - 1))) + MIN
         real_y = (base_dez_y * ((MAX-MIN) / (2**22 - 1))) + MIN
-
+        #Calcula o valor da função F6, que será usado para o fitness
         fSix_result = self.aply_fSix(real_x, real_y)
+        return fSix_result
+        #fSix_result - 1, quanto mais proximo de 0.0, mais apto é
+        #return abs(fSix_result - 1)
 
-        #Avalio o quão proximo ela está do meu otimo
 
     def aply_fSix(self, x, y):
         return (0.5 - (((math.sin(math.sqrt(x**2 + y**2)))**2 - 0.5) / (1.0 + 0.001 * (x**2 + y**2))**2))
