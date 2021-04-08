@@ -21,8 +21,16 @@ def main():
             choosen_number = random.uniform(0.0, soma_dos_fitness_total)
             selecionados_por_roleta.append(roleta(population, soma_dos_fitness_total, choosen_number))
         maes, pais = selecionados_por_roleta[:int(len(selecionados_por_roleta)/2)], selecionados_por_roleta[int(len(selecionados_por_roleta)/2):]
+        
+        '''
+        Realiza o cruzamento, começando com o Crossover
+        '''
+        for mae in maes:
+            comparador_da_taxa = round(random.uniform(0.0, 1.0), 2)
+            
+
+        
         found = True
-    pass
 
 def roleta(population, soma_dos_fitness_total, choosen_number):
     for index in range(len(population)):
