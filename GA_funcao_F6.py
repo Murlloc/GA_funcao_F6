@@ -25,11 +25,17 @@ def main():
         '''
         Realiza o cruzamento, começando com o Crossover
         '''
-        for mae in maes:
+        filhos = []
+        for index in range(len(maes)):
             comparador_da_taxa = round(random.uniform(0.0, 1.0), 2)
-            
-
-        
+            if (comparador_da_taxa >= 0.65):
+                #Realiza o cruzamento
+                aux = crossover(maes[index], pais[index])
+                filhos.append(aux[0])
+                filhos.append(aux[1])
+            else:
+                #pega a mae????????ww
+                pass
         found = True
 
 def roleta(population, soma_dos_fitness_total, choosen_number):
@@ -60,6 +66,10 @@ def somatorio_fitness(population, index):
         soma_dos_fitness += population[i].fitness
     return soma_dos_fitness
 
+def crossover(mother, father):
+    ponto_de_corte = random.randint(1,43)
+    head,tail = mother.cromossoma[:ponto_de_corte], mother.cromossoma[ponto_de_corte:]
+    print("PAREI")
 
 if __name__ == '__main__':
     main()

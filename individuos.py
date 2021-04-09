@@ -8,7 +8,7 @@ class Individual(object):
     def __init__(self, cromossoma):
         self.cromossoma = cromossoma 
         self.fitness = self.cal_fitness()
-  
+
     @classmethod
     def create_gnome(self):
         
