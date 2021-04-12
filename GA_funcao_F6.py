@@ -34,8 +34,10 @@ def main():
                 filhos.append(aux[0])
                 filhos.append(aux[1])
             else:
-                #pega a mae????????ww
-                pass
+                filhos.append(maes[index])
+                filhos.append(pais[index])
+
+        #Fazer a mutação
         found = True
 
 def roleta(population, soma_dos_fitness_total, choosen_number):
@@ -68,8 +70,11 @@ def somatorio_fitness(population, index):
 
 def crossover(mother, father):
     ponto_de_corte = random.randint(1,43)
-    head,tail = mother.cromossoma[:ponto_de_corte], mother.cromossoma[ponto_de_corte:]
-    print("PAREI")
+    mother_head,mother_tail = mother.cromossoma[:ponto_de_corte], mother.cromossoma[ponto_de_corte:]
+    father_head,father_tail = father.cromossoma[:ponto_de_corte], father.cromossoma[ponto_de_corte:]
+    filho1 =individuos.Individual(mother_head + father_tail)
+    filho2 =individuos.Individual(father_head + mother_tail)
+    return [filho1, filho2]
 
 if __name__ == '__main__':
     main()
