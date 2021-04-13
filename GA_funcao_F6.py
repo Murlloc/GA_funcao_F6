@@ -2,7 +2,7 @@ import random
 import individuos
 
 TAMANHO_POPULACAO   = 100
-NUMERO_DE_GERACOES  = 40
+NUMERO_DE_GERACOES  = 4000
 TOTAL_DE_INDIVIDUOS = 4000
 
 def main():
@@ -10,12 +10,14 @@ def main():
 
     found      = False
     generation = 0
-  
+    best = individuos.Individual(individuos.Individual.create_gnome(), 0)
     population = create_initial_population()
 
-    while not found:
+    while (not found):
         soma_dos_fitness_total   = somatorio_fitness(population, len(population))
         selecionado_por_elitismo = elitismo(population)
+        population.pop()
+        population.append(selecionado_por_elitismo)
         selecionados_por_roleta  = []
         for _ in range(TAMANHO_POPULACAO):
             choosen_number = random.uniform(0.0, soma_dos_fitness_total)
@@ -37,8 +39,18 @@ def main():
                 filhos.append(maes[index])
                 filhos.append(pais[index])
 
-        #Fazer a mutação
-        found = True
+        population = filhos
+
+        for individuo in population:
+            if individuo.fitness > best.fitness:
+                best = individuo
+                print("O melhor até agora: " + str(best.geracao) + "°: " + str(best.fitness) + " | " + "Valor de x: " 
+                + str(best.x) + " | " + "Valor de y: " + str(best.y))
+            if individuo.fitness >= 0.9999:
+                found = True
+                print("Temos o vencedor na geração: " + str(individuo.geracao))
+            elif individuo.geracao >= NUMERO_DE_GERACOES:
+                found = True
 
 def roleta(population, soma_dos_fitness_total, choosen_number):
     for index in range(len(population)):
@@ -59,7 +71,9 @@ def create_initial_population():
     population = []
     for _ in range(TAMANHO_POPULACAO):
         gnome  = individuos.Individual.create_gnome()
-        population.append(individuos.Individual(gnome))
+        aux = individuos.Individual(gnome, 0)
+        aux = aux.define_x_and_y(aux)
+        population.append(aux)
     return population
 
 def somatorio_fitness(population, index):  
@@ -72,8 +86,12 @@ def crossover(mother, father):
     ponto_de_corte = random.randint(1,43)
     mother_head,mother_tail = mother.cromossoma[:ponto_de_corte], mother.cromossoma[ponto_de_corte:]
     father_head,father_tail = father.cromossoma[:ponto_de_corte], father.cromossoma[ponto_de_corte:]
-    filho1 =individuos.Individual(mother_head + father_tail)
-    filho2 =individuos.Individual(father_head + mother_tail)
+    filho1 = individuos.Individual((mother_head + father_tail), mother.geracao)
+    filho2 = individuos.Individual((father_head + mother_tail), mother.geracao)
+    filho1 = filho1.mutacao(filho1)
+    filho2 = filho2.mutacao(filho2)
+    filho1 = filho1.define_x_and_y(filho1)
+    filho2 = filho2.define_x_and_y(filho2)
     return [filho1, filho2]
 
 if __name__ == '__main__':
