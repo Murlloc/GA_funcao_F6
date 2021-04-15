@@ -1,1 +1,5 @@
-GA_funcao_F6
+Necessario instalar o matplotlib
+
+comando:
+
+> pip3 install matplotlib
