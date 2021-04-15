@@ -13,19 +13,27 @@ def main():
     global TAMANHO_POPULACAO, NUMERO_DE_GERACOES, TOTAL_DE_INDIVIDUOS
     global TAXA_CROSSOVER, TAXA_MUTACAO
 
+    #Variaveis de auxilio
     found      = False
     generation = 0
-    best = individuos.Individual(individuos.Individual.create_gnome(), 0)
-    melhores = []
+    count      = 1
+    melhores   = []
+    best       = None
+
     population = create_initial_population()
-    count = 1
+
     while (not found):
+
+        '''
+        Testa a população para o valor maximo e a quantidade de gerações
+        fazendo a condição de parada
+        '''
         aux = {'index': 0, 'fitness': 0.0}
         for index in range(len(population)):
             if population[index].fitness > aux['fitness']:
                 aux['index']   = index
                 aux['fitness'] = population[index].fitness
-            if population[index].fitness > best.fitness:
+            if best is None or population[index].fitness > best.fitness:
                 best = population[index]
             if population[index].fitness >= 1.0:
                 found = True
@@ -34,13 +42,18 @@ def main():
             elif count >= NUMERO_DE_GERACOES:
                 found = True
 
+        '''
+        Visualização dos dados
+        '''
         melhores.append(population[aux['index']])
+        print("Geração atual: " + str(count) + " | " + "O melhor até agora: " + str(best.geracao) + "°: " 
+                + str(best.fitness) + " | " + "Valor do cromossomo: " + best.cromossoma)
         if found == True:
             Grafico.gerar_grafico(melhores)
 
-        print("Geração atual: " + str(count) + " | " + "O melhor até agora: " + str(best.geracao) + "°: " 
-                + str(best.fitness) + " | " + "Valor do cromossomo: " + best.cromossoma)
-
+        '''
+        Realiza a seleção na população atual
+        '''
         soma_dos_fitness_total   = Selecao.somatorio_fitness(population, len(population))
         selecionado_por_elitismo = Selecao.elitismo(population)
         selecionados_por_roleta  = []
